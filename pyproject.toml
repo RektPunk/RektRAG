@@ -1,0 +1,24 @@
+[project]
+name = "rektrag"
+version = "0.0.1"
+description = "No-brainer vectorless RAG combining docling and toon-python"
+readme = "README.md"
+authors = [
+    {name = "RektPunk", email = "rektpunk@gmail.com"},
+]
+requires-python = ">=3.12"
+dependencies = [
+    "docling>=2.72.0",
+    "toon-format",
+]
+
+[project.urls]
+repository = "https://github.com/RektPunk/rektrag"
+
+[tool.uv.sources]
+toon-format = { git = "https://github.com/toon-format/toon-python.git" }
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.5.1",
+]

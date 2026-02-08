@@ -66,7 +66,7 @@ class RektEngine:
         with open(file_path, "w", encoding="utf-8") as f:
             json.dump(state, f, ensure_ascii=False, indent=2)
 
-    def load_state(self, file_path: str = "rekt_state.json"):
+    def load_state(self, file_path: str = "rektrag_state.json"):
         if not os.path.exists(file_path):
             return False
 

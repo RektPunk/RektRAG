@@ -11,7 +11,9 @@ from rektrag.parser import build_map
 from rektrag.schema import DocNode
 
 
-async def summarize_node(node: DocNode, semaphore: asyncio.Semaphore, llm: LLMProvider):
+async def summarize_node(
+    node: DocNode, semaphore: asyncio.Semaphore, llm: LLMProvider
+) -> None:
     if len(node.content) < 200:
         node.summary = node.content[:50] or node.title
         return
@@ -26,7 +28,9 @@ async def summarize_node(node: DocNode, semaphore: asyncio.Semaphore, llm: LLMPr
             node.summary = node.title
 
 
-async def run_summarization(node: DocNode, llm: LLMProvider, max_concurrency: int = 5):
+async def run_summarization(
+    node: DocNode, llm: LLMProvider, max_concurrency: int = 5
+) -> None:
     semaphore = asyncio.Semaphore(max_concurrency)
     tasks = []
 
@@ -45,9 +49,9 @@ class RektEngine:
     def __init__(self, llm: LLMProvider):
         self.llm = llm
         self.documents: dict[str, str] = {}
-        self.indexes: dict[str, dict] = {}
+        self.indexes: dict[str, dict[str, str | int]] = {}
 
-    async def ingest(self, file_paths: str | list[str]):
+    async def ingest(self, file_paths: str | list[str]) -> None:
         if isinstance(file_paths, str):
             file_paths = [file_paths]
 

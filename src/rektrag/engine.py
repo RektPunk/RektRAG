@@ -61,7 +61,7 @@ class RektEngine:
             node = build_map(path=file_path, doc_hash=doc_hash)
             logger.info("Starting concurrent summarization...")
             await run_summarization(node=node, llm=self.llm)
-            logger.info(f"Successfully built rekt_map for: {file_path}")
+            logger.info(f"Successfully built rekt_map for: {file_path}({doc_hash})")
             self.documents[doc_hash] = encode(node.get_slim_tree())
             self.indexes.update(node.get_index_map())
 

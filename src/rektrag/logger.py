@@ -13,7 +13,9 @@ def init_logger() -> logging.Logger:
 
     ch = logging.StreamHandler(sys.stdout)
     ch.setLevel(logging.INFO)
-    formatter = logging.Formatter("[%(name)s:%(levelname)s] %(message)s")
+    formatter = logging.Formatter(
+        "[%(levelname)s] %(asctime)s [%(name)s] %(filename)s:%(lineno)d: %(message)s"
+    )
     ch.setFormatter(formatter)
 
     logger.addHandler(ch)

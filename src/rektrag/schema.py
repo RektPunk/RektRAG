@@ -11,11 +11,8 @@ class DocNode(BaseModel):
     page_index: int | None = None
     children: list["DocNode"] = Field(default_factory=list)
 
-    def __index_map(self) -> dict:
-        return self.model_dump(exclude={"children"})
-
-    def get_index_map(self) -> dict[str, dict[str, str | int]]:
-        index_map = {self.ref_id: self.__index_map()}
+    def get_index_map(self) -> dict[str, dict]:
+        index_map = {self.ref_id: self.model_dump(exclude={"children"})}
         for child in self.children:
             index_map.update(child.get_index_map())
         return index_map

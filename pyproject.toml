@@ -1,6 +1,6 @@
 [project]
 name = "rektrag"
-version = "0.0.1"
+version = "0.0.2"
 description = "No-brainer vectorless RAG combining docling and toon-python"
 readme = "README.md"
 authors = [

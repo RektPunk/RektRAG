@@ -61,20 +61,44 @@ class RektEngine:
             self.documents[doc_hash] = encode(node.get_slim_tree())
             self.indexes.update(node.get_index_map())
 
-    def save_state(self, file_path: str = "rektrag_state.json"):
-        state = {"documents": self.documents, "indexes": self.indexes}
-        with open(file_path, "w", encoding="utf-8") as f:
-            json.dump(state, f, ensure_ascii=False, indent=2)
+    def save_state(self, file_path: str = "rektrag_state.json") -> None:
+        temp_file = f"{file_path}.tmp"
+        try:
+            state = {"documents": self.documents, "indexes": self.indexes}
+            with open(temp_file, "w", encoding="utf-8") as f:
+                json.dump(state, f, ensure_ascii=False, indent=2)
+                f.flush()
+                os.fsync(f.fileno())
+            os.replace(temp_file, file_path)
+            logger.info(f"Successfully saved state to '{file_path}'")
+        except Exception as e:
+            logger.error(f"Failed to save state to '{file_path}': {str(e)}")
+            if os.path.exists(temp_file):
+                os.remove(temp_file)
+            raise e
 
-    def load_state(self, file_path: str = "rektrag_state.json"):
+    def load_state(self, file_path: str = "rektrag_state.json") -> None:
         if not os.path.exists(file_path):
-            return False
+            msg = f"State file not found: '{file_path}'. Loading aborted."
+            logger.error(msg)
+            raise FileNotFoundError(msg)
 
         with open(file_path, "r", encoding="utf-8") as f:
-            state = json.load(f)
-            self.documents = state.get("documents", {})
-            self.indexes = state.get("indexes", {})
-        return True
+            try:
+                state = json.load(f)
+                self.documents = state.get("documents", {})
+                self.indexes = state.get("indexes", {})
+                logger.info(
+                    f"Successfully loaded state from '{file_path}' ({len(self.documents)} documents, {len(self.indexes)} indexes)"
+                )
+            except json.JSONDecodeError as e:
+                msg = f"Invalid JSON format in '{file_path}': {str(e)}"
+                logger.error(msg)
+                raise e
+            except Exception as e:
+                msg = f"Unexpected error while loading state: {str(e)}"
+                logger.error(msg)
+                raise e
 
     async def retrieve(self, query: str) -> list[str]:
         if not self.documents:

@@ -26,7 +26,7 @@ def build_map(path: str, doc_hash: str) -> DocNode:
     converter = DocumentConverter()
     result = converter.convert(path)
     doc = result.document
-    root = DocNode(ref_id=f"#/{doc_hash}", level=0)
+    root = DocNode(ref_id=f"{doc_hash}", level=0)
     stack = [root]
     for item, _ in doc.iterate_items():
         if not isinstance(item, ALLOWED_TYPES):

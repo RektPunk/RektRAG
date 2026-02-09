@@ -5,9 +5,6 @@
   <a href="https://github.com/RektPunk/RektRAG/releases/latest">
     <img alt="release" src="https://img.shields.io/github/v/release/RektPunk/RektRAG.svg">
   </a>
-  <a href="https://pypi.org/project/RektRAG">
-    <img alt="Pythonv" src="https://img.shields.io/pypi/pyversions/RektRAG.svg?logo=python&logoColor=white">
-  </a>
   <a href="https://github.com/RektPunk/RektRAG/blob/main/LICENSE">
     <img alt="License" src="https://img.shields.io/github/license/RektPunk/RektRAG.svg">
   </a>
